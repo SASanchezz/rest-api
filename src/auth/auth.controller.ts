@@ -1,21 +1,21 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { UserService } from "./user.service";
 import { AuthDto } from "./dto/auth.dto";
 import { LoginResponseDto } from "./dto/login-response.dto";
+import { AuthService } from "./auth.service";
 
-@ApiTags("User")
-@Controller("user")
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@ApiTags("Auth")
+@Controller("auth")
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
   
   @Post("signup")
   signup(@Body() body: AuthDto): Promise<AuthDto> {
-    return this.userService.signup(body);
+    return this.authService.signup(body);
   }
 
   @Post("login")
   login(@Body() body: AuthDto): Promise<LoginResponseDto> {
-    return this.userService.login(body);
+    return this.authService.login(body);
   }
 }
