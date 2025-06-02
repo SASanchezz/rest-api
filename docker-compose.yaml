@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  postgres_dev:
+    container_name: postgres_dev
+    image: postgres:13
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres_dev
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
