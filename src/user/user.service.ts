@@ -1,13 +1,13 @@
-import { Repository } from 'typeorm';
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from "typeorm";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
 
-import { CryptService } from 'src/crypt/crypt.service';
+import { CryptService } from "src/crypt/crypt.service";
 
-import { UserEntity } from './entity/user.entity';
-import { AuthDto } from './dto/auth.dto';
-import { LoginResponseDto } from './dto/login-response.dto';
+import { UserEntity } from "./entity/user.entity";
+import { AuthDto } from "./dto/auth.dto";
+import { LoginResponseDto } from "./dto/login-response.dto";
 
 @Injectable()
 export class UserService {
@@ -22,7 +22,7 @@ export class UserService {
   public async signup(body: AuthDto): Promise<UserEntity> {
     const existingUser = await this.userRepository.findOneBy({ email: body.email });
     if (!!existingUser) {
-      throw new BadRequestException('User with this email already exists');
+      throw new BadRequestException("User with this email already exists");
     }
 
     const user: UserEntity = {
@@ -36,12 +36,12 @@ export class UserService {
   public async login(body: AuthDto): Promise<LoginResponseDto> {
     const user = await this.userRepository.findOneBy({ email: body.email });
     if (!user) {
-      throw new BadRequestException('Invalid credentials');
+      throw new BadRequestException("Invalid credentials");
     }
 
     const isPasswordValid = await this.cryptService.comparePassword(user.password, body.password);
     if (!isPasswordValid) {
-      throw new BadRequestException('Invalid credentials');
+      throw new BadRequestException("Invalid credentials");
     }
 
     const payload = { email: user.email };
@@ -57,8 +57,8 @@ export class UserService {
     try {
       return this.userRepository.save(body);
     } catch (error) {
-      console.error('Error during signup:', error);
-      throw new BadRequestException('Signup failed');
+      console.error("Error during signup:", error);
+      throw new BadRequestException("Signup failed");
     }
   }
 }

@@ -1,11 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CryptService } from './crypt.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { CryptService } from "./crypt.service";
 
 function randomString(length: number = 8): string {
   return (Math.random() + 1).toString(36).substring(7).slice(0, length);
 }
 
-describe('CryptService', () => {
+describe("CryptService", () => {
   let service: CryptService;
   let plainPassword;
 
